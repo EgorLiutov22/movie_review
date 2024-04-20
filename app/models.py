@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from . import db
 
@@ -11,17 +11,17 @@ class Movie(db.Model):
     reviews = db.relationship('Review', back_populates='movie')
 
     def __repr__(self):
-        return f'Film {self.id} {self.title}'
+        return f'Фильм {self.id}: ({self.title})'
 
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     text = db.Column(db.Text, nullable=False)
-    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    created_date = db.Column(db.DateTime, default=datetime.utcnow)
     score = db.Column(db.Integer, nullable=False)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id', ondelete='CASCADE'))
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id', ondelete="CASCADE"))
     movie = db.relationship('Movie', back_populates='reviews')
 
     def __repr__(self):
-        return f'Review {self.id} {self.name}'
+        return f'Отзыв {self.id}: ({self.title[:20]}...)'
